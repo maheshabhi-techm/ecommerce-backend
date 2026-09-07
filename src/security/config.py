@@ -26,6 +26,11 @@ class Settings(BaseSettings):
     RAZORPAY_KEY_ID: str
     RAZORPAY_SECRET_KEY: str
 
+    AWS_ACCESS_KEY: str
+    AWS_SECRET_KEY: str
+    AWS_REGION: str = "ap-south-1"
+    AWS_BUCKET_NAME: str
+
     class Config:
         env_file = ".env"
         case_sensitive = False
