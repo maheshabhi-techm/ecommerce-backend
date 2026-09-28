@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, UploadFile, File
 from src.database import get_db
 from src.schemas.product import ProductCreate, ProductResponse, ProductUpdate
 from src.dependencies.role import require_roles
-from src.models.user import UserRole
+from src.models.category import UserRole
 import src.services.seller_product_service as product_service
 
 router = APIRouter(prefix="/seller/products", tags=["Seller Products"])
@@ -42,3 +42,7 @@ def delete_product_api(
     id: int, db=Depends(get_db), current_user=Depends(require_roles(UserRole.SELLER))
 ):
     return product_service.delete_product(id, db, current_user)
+
+@router.post("/{id}/image")
+async def upload_image_api(product_id:int, image: UploadFile= File(...), db= Depends(get_db), current_user= Depends(require_roles(UserRole.SELLER, UserRole.ADMIN))):
+    return await product_service.upload_product_image(product_id, image, db, current_user)
