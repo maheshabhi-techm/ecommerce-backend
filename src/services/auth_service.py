@@ -98,7 +98,7 @@ async def verify_email(request, db):
     if otp is None:
         raise HTTPException(status_code=400, detail="Invalid OTP")
 
-    if otp.expires_at < datetime.now():
+    if otp.expires_at < datetime.now(UTC):
         raise HTTPException(status_code=400, detail="OTP expired")
 
     otp.is_used = True

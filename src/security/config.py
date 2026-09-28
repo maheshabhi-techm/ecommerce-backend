@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from fastapi_mail import ConnectionConfig
 
 
@@ -26,9 +26,15 @@ class Settings(BaseSettings):
     RAZORPAY_KEY_ID: str
     RAZORPAY_SECRET_KEY: str
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    # class Config:
+    #     env_file = ".env"
+    #     case_sensitive = False
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
 
 settings = Settings()
